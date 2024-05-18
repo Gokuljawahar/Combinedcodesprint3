@@ -169,20 +169,6 @@ namespace LXP.Data.Repository
 
         }
 
-        //private void DecrementQuestionNos(Guid deletedQuestionId)
-        //{
-        //    var deletedQuestion = _context.Topicfeedbackquestions.FirstOrDefault(q => q.TopicFeedbackQuestionId == deletedQuestionId);
-        //    if (deletedQuestion != null)
-        //    {
-        //        var questionsToUpdate = _context.Topicfeedbackquestions
-        //            .Where(q => q.TopicId == deletedQuestion.TopicId && q.QuestionNo > deletedQuestion.QuestionNo)
-        //            .OrderBy(q => q.QuestionNo)
-        //            .ToList();
-        //        _context.SaveChanges();
-
-            
-        //    }
-        //}
 
         private void ReorderQuestionNo(Guid topicId, int deletedQuestionNo)
         {
@@ -196,3 +182,19 @@ namespace LXP.Data.Repository
 
     }
 }
+
+
+//private void DecrementQuestionNos(Guid deletedQuestionId)
+//{
+//    var deletedQuestion = _context.Topicfeedbackquestions.FirstOrDefault(q => q.TopicFeedbackQuestionId == deletedQuestionId);
+//    if (deletedQuestion != null)
+//    {
+//        var questionsToUpdate = _context.Topicfeedbackquestions
+//            .Where(q => q.TopicId == deletedQuestion.TopicId && q.QuestionNo > deletedQuestion.QuestionNo)
+//            .OrderBy(q => q.QuestionNo)
+//            .ToList();
+//        _context.SaveChanges();
+
+
+//    }
+//}
