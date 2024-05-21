@@ -16,3 +16,19 @@ namespace LXP.Common.DTO
     }
 
 }
+
+//using System;
+
+//namespace LXP.Common.DTO
+//{
+//    public class CreateQuizDto
+//    {
+//        public string NameOfQuiz { get; set; } = null!;
+//        public int Duration { get; set; }
+//        public int? AttemptsAllowed { get; set; }
+//        public int PassMark { get; set; }
+//        public Guid CourseId { get; set; }  // Added
+//        public Guid TopicId { get; set; }   // Added
+//    }
+//}
+

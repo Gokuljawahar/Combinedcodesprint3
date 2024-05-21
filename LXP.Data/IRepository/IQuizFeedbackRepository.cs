@@ -8,7 +8,7 @@ namespace LXP.Data.IRepository
     {
         Guid AddFeedbackQuestion(QuizFeedbackQuestionDto quizfeedbackquestionDto, List<QuizFeedbackQuestionsOptionDto> options);
         List<QuizFeedbackQuestionNoDto> GetAllFeedbackQuestions();
-        //void DecrementFeedbackQuestionNos(Guid deletedQuestionId);
+        
         int GetNextFeedbackQuestionNo(Guid quizId);
         Guid AddFeedbackQuestionOption(QuizFeedbackQuestionsOptionDto feedbackquestionsoptionDto, Guid QuizFeedbackQuestionId);
         List<QuizFeedbackQuestionsOptionDto> GetFeedbackQuestionOptionsById(Guid QuizFeedbackQuestionId);
@@ -16,7 +16,7 @@ namespace LXP.Data.IRepository
         bool ValidateOptionsByFeedbackQuestionType(string questionType, List<QuizFeedbackQuestionsOptionDto> options);
         bool UpdateFeedbackQuestion(Guid QuizFeedbackQuestionId, QuizFeedbackQuestionDto quizfeedbackquestionDto, List<QuizFeedbackQuestionsOptionDto> options);
         bool DeleteFeedbackQuestion(Guid QuizFeedbackQuestionId);
-        //Guid AddFeedbackResponse(FeedbackResponseDto feedbackResponseDTO);
+       
     }
 }
 

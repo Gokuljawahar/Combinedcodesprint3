@@ -108,7 +108,127 @@ namespace LXP.Data.Repository
 
         public QuizDto GetQuizById(Guid quizId)
         {
+            try
+            {
+                var quiz = _LXPDbContext.Quizzes
+                    .Where(q => q.QuizId == quizId)
+                    .Select(q => new QuizDto
+                    {
+                        QuizId = q.QuizId,
+                        CourseId = q.CourseId,
+                        TopicId = q.TopicId,
+                        NameOfQuiz = q.NameOfQuiz,
+                        Duration = q.Duration,
+                        PassMark = q.PassMark,
+                        AttemptsAllowed = q.AttemptsAllowed
+                    })
+                    .FirstOrDefault();
+
+                if (quiz == null)
+                {
+                    return new QuizDto(); // Or handle the null case as needed, e.g., return null or throw an exception
+                }
+
+                return quiz;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(
+                    "An error occurred while retrieving the quiz by ID.",
+                    ex
+                );
+            }
+        }
+
+    }
+}
+/*
+ * using LXP.Common.DTO;
+using LXP.Data.IRepository;
+using LXP.Data.DBContexts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LXP.Data.Repository
+{
+    public class QuizRepository : IQuizRepository
+    {
+        private readonly LXPDbContext _LXPDbContext;
+
+        public QuizRepository(LXPDbContext dbContext)
+        {
+            _LXPDbContext = dbContext;
+        }
+
+        public void CreateQuiz(QuizDto quiz)
+        {
+            // Validate properties
+            ValidateQuizDto(quiz);
+
+            var quizEntity = new Quiz
+            {
+                QuizId = quiz.QuizId,
+                CourseId = quiz.CourseId,
+                TopicId = quiz.TopicId,
+                NameOfQuiz = quiz.NameOfQuiz,
+                Duration = quiz.Duration,
+                PassMark = quiz.PassMark,
+                AttemptsAllowed = quiz.AttemptsAllowed,
+                CreatedBy = quiz.CreatedBy,
+                CreatedAt = quiz.CreatedAt
+            };
+
+            _LXPDbContext.Quizzes.Add(quizEntity);
+            _LXPDbContext.SaveChanges();
+        }
+
+        public void UpdateQuiz(QuizDto quiz)
+        {
+            // Validate properties
+            ValidateQuizDto(quiz);
+
+            var quizEntity = _LXPDbContext.Quizzes.Find(quiz.QuizId);
+            if (quizEntity != null)
+            {
+                quizEntity.NameOfQuiz = quiz.NameOfQuiz;
+                quizEntity.Duration = quiz.Duration;
+                quizEntity.PassMark = quiz.PassMark;
+                quizEntity.AttemptsAllowed = quiz.AttemptsAllowed;
+
+                _LXPDbContext.SaveChanges();
+            }
+        }
+
+        public void DeleteQuiz(Guid quizId)
+        {
+            var quizEntity = _LXPDbContext.Quizzes.Find(quizId);
+            if (quizEntity != null)
+            {
+                _LXPDbContext.Quizzes.Remove(quizEntity);
+                _LXPDbContext.SaveChanges();
+            }
+        }
+
+        public IEnumerable<QuizDto> GetAllQuizzes()
+        {
             return _LXPDbContext.Quizzes
+                .Select(q => new QuizDto
+                {
+                    QuizId = q.QuizId,
+                    CourseId = q.CourseId,
+                    TopicId = q.TopicId,
+                    NameOfQuiz = q.NameOfQuiz,
+                    Duration = q.Duration,
+                    PassMark = q.PassMark,
+                    AttemptsAllowed = q.AttemptsAllowed
+                })
+                .ToList();
+        }
+
+        public QuizDto GetQuizById(Guid quizId)
+        {
+            var quiz = _LXPDbContext.Quizzes
                 .Where(q => q.QuizId == quizId)
                 .Select(q => new QuizDto
                 {
@@ -121,10 +241,44 @@ namespace LXP.Data.Repository
                     AttemptsAllowed = q.AttemptsAllowed
                 })
                 .FirstOrDefault();
+
+            return quiz ?? new QuizDto(); // Handle the null case appropriately
+        }
+
+        private void ValidateQuizDto(QuizDto quiz)
+        {
+            if (string.IsNullOrWhiteSpace(quiz.NameOfQuiz))
+                throw new ArgumentException("NameOfQuiz cannot be null or empty.");
+
+            if (quiz.Duration <= 0)
+                throw new ArgumentException("Duration must be a positive integer.");
+
+            if (quiz.PassMark <= 0)
+                throw new ArgumentException("PassMark must be a positive integer.");
+
+            if (quiz.AttemptsAllowed.HasValue && quiz.AttemptsAllowed <= 0)
+                throw new ArgumentException("AttemptsAllowed must be null or a positive integer.");
         }
     }
 }
+*/
 
+//public QuizDto GetQuizById(Guid quizId)
+//{
+//    return _LXPDbContext.Quizzes
+//        .Where(q => q.QuizId == quizId)
+//        .Select(q => new QuizDto
+//        {
+//            QuizId = q.QuizId,
+//            CourseId = q.CourseId,
+//            TopicId = q.TopicId,
+//            NameOfQuiz = q.NameOfQuiz,
+//            Duration = q.Duration,
+//            PassMark = q.PassMark,
+//            AttemptsAllowed = q.AttemptsAllowed
+//        })
+//        .FirstOrDefault();
+//}
 
 
 //public void CreateQuiz(Guid quizId, Guid courseId, Guid topicId, string nameOfQuiz, int duration, int passMark, string createdBy, DateTime createdAt)

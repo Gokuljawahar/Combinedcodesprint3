@@ -3,7 +3,6 @@ using LXP.Core.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-
 namespace LXP.Api.Controllers
 {
     [Route("api/[controller]")]

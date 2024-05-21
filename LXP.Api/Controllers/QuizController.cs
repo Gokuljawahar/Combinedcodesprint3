@@ -1,9 +1,8 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using LXP.Core.IServices;
 using LXP.Common.DTO;
-
+using LXP.Core.Services;
 
 namespace LXP.Api.Controllers
 {
@@ -153,6 +152,68 @@ namespace LXP.Api.Controllers
         }
     }
 }
+
+
+//[HttpPost]
+//[ProducesResponseType(StatusCodes.Status201Created)]
+//public ActionResult CreateQuiz([FromBody] CreateQuizDto request)
+//{
+//    Validate the request
+//    ValidateCreateQuizRequest(request);
+
+//    Generate QuizId and set metadata
+//   var quizId = Guid.NewGuid();
+//    var createdBy = "System"; // This could come from the authenticated user context
+//    var createdAt = DateTime.UtcNow;
+
+//    Create QuizDto object
+//   var quiz = new QuizDto
+//   {
+//       QuizId = quizId,
+//       CourseId = request.CourseId,
+//       TopicId = request.TopicId,
+//       NameOfQuiz = request.NameOfQuiz,
+//       Duration = request.Duration,
+//       PassMark = request.PassMark,
+//       AttemptsAllowed = request.AttemptsAllowed,
+//       CreatedBy = createdBy,
+//       CreatedAt = createdAt
+//   };
+
+//    Pass the necessary fields to the service
+//    _quizService.CreateQuiz(quiz);
+
+//    Return 201 Created status with the newly created quiz
+//    return CreatedAtAction(nameof(GetQuizById), new { id = quizId }, new { quiz.NameOfQuiz, quiz.Duration, quiz.PassMark, quiz.AttemptsAllowed });
+//}
+
+//Extracted validation logic into a separate method
+//private void ValidateCreateQuizRequest(CreateQuizDto request)
+//{
+//    if (request == null)
+//        throw new ArgumentException("Request cannot be null.");
+
+//    if (request.AttemptsAllowed.HasValue && request.AttemptsAllowed <= 0)
+//        throw new ArgumentException("AttemptsAllowed must be null or a positive integer.");
+
+//    if (string.IsNullOrWhiteSpace(request.NameOfQuiz))
+//        throw new ArgumentException("NameOfQuiz cannot be null or empty.");
+
+//    if (request.Duration <= 0)
+//        throw new ArgumentException("Duration must be a positive integer.");
+
+//    if (request.PassMark <= 0)
+//        throw new ArgumentException("PassMark must be a positive integer.");
+
+//    if (request.CourseId == Guid.Empty)
+//        throw new ArgumentException("CourseId is required.");
+
+//    if (request.TopicId == Guid.Empty)
+//        throw new ArgumentException("TopicId is required.");
+//}
+
+
+
 
 
 

@@ -1,7 +1,5 @@
 ﻿using LXP.Common.DTO;
 using LXP.Core.IServices;
-using LXP.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LXP.Api.Controllers

@@ -246,34 +246,45 @@ namespace LXP.Data.Repository
                 );
             }
         }
+        
         public QuizQuestionNoDto GetQuestionById(Guid quizQuestionId)
         {
             try
             {
-                return _LXPDbContext.QuizQuestions
+                var quizQuestion = _LXPDbContext.QuizQuestions
                     .Where(q => q.QuizQuestionId == quizQuestionId)
-                    .Select(q =>
-                        new QuizQuestionNoDto
-                        {
-                            QuizId = q.QuizId,
-                            QuizQuestionId = q.QuizQuestionId,
-                            Question = q.Question,
-                            QuestionType = q.QuestionType,
-                            QuestionNo = q.QuestionNo,
-
-                            Options = _LXPDbContext.QuizFeedbackQuestionOptions
-                                .Where(o => o.QuizQuestionId == q.QuizQuestionId)
-                                .Select(o =>
-                                    new QuestionOptionDto
-                                    {
-                                        Option = o.Option,
-                                        IsCorrect = o.IsCorrect
-                                    }
-                                )
-                                .ToList()
-                        }
-                    )
+                    .Select(q => new
+                    {
+                        q.QuizId,
+                        q.QuizQuestionId,
+                        q.Question,
+                        q.QuestionType,
+                        q.QuestionNo,
+                        Options = _LXPDbContext.QuizFeedbackQuestionOptions
+                            .Where(o => o.QuizQuestionId == q.QuizQuestionId)
+                            .Select(o => new QuestionOptionDto
+                            {
+                                Option = o.Option,
+                                IsCorrect = o.IsCorrect
+                            })
+                            .ToList()
+                    })
                     .FirstOrDefault();
+
+                if (quizQuestion == null)
+                {
+                    return null;
+                }
+
+                return new QuizQuestionNoDto
+                {
+                    QuizId = quizQuestion.QuizId,
+                    QuizQuestionId = quizQuestion.QuizQuestionId,
+                    Question = quizQuestion.Question,
+                    QuestionType = quizQuestion.QuestionType,
+                    QuestionNo = quizQuestion.QuestionNo,
+                    Options = quizQuestion.Options ?? new List<QuestionOptionDto>()
+                };
             }
             catch (Exception ex)
             {
@@ -283,6 +294,7 @@ namespace LXP.Data.Repository
                 );
             }
         }
+
 
 
 
@@ -435,4 +447,41 @@ namespace LXP.Data.Repository
     }
 }
 
+//public QuizQuestionNoDto GetQuestionById(Guid quizQuestionId)
+//{
+//    try
+//    {
+//        return _LXPDbContext.QuizQuestions
+//            .Where(q => q.QuizQuestionId == quizQuestionId)
+//            .Select(q =>
+//                new QuizQuestionNoDto
+//                {
+//                    QuizId = q.QuizId,
+//                    QuizQuestionId = q.QuizQuestionId,
+//                    Question = q.Question,
+//                    QuestionType = q.QuestionType,
+//                    QuestionNo = q.QuestionNo,
+
+//                    Options = _LXPDbContext.QuizFeedbackQuestionOptions
+//                        .Where(o => o.QuizQuestionId == q.QuizQuestionId)
+//                        .Select(o =>
+//                            new QuestionOptionDto
+//                            {
+//                                Option = o.Option,
+//                                IsCorrect = o.IsCorrect
+//                            }
+//                        )
+//                        .ToList()
+//                }
+//            )
+//            .FirstOrDefault();
+//    }
+//    catch (Exception ex)
+//    {
+//        throw new InvalidOperationException(
+//            "An error occurred while retrieving the quiz question by ID.",
+//            ex
+//        );
+//    }
+//}
 

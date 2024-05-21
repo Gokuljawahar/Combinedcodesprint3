@@ -171,33 +171,45 @@ namespace LXP.Data.Repository
                 }).ToList();
         }
 
+       
         public QuizFeedbackQuestionNoDto GetFeedbackQuestionById(Guid quizFeedbackQuestionId)
         {
-            return _dbContext.Quizfeedbackquestions
+            var feedbackQuestion = _dbContext.Quizfeedbackquestions
                 .Where(q => q.QuizFeedbackQuestionId == quizFeedbackQuestionId)
-                .Select(q => new QuizFeedbackQuestionNoDto
+                .Select(q => new
                 {
-                    QuizFeedbackQuestionId = q.QuizFeedbackQuestionId,
-                    QuizId = q.QuizId,
-                    QuestionNo = q.QuestionNo,
-                    Question = q.Question,
-                    QuestionType = q.QuestionType,
-
+                    q.QuizFeedbackQuestionId,
+                    q.QuizId,
+                    q.QuestionNo,
+                    q.Question,
+                    q.QuestionType,
                     Options = _dbContext.Feedbackquestionsoptions
-                                    .Where(o => o.QuizFeedbackQuestionId == q.QuizFeedbackQuestionId)
-                                    .Select(
-                                        o =>
-                                            new QuizFeedbackQuestionsOptionDto
-                                            {
-                                                OptionText = o.OptionText,
+                                .Where(o => o.QuizFeedbackQuestionId == q.QuizFeedbackQuestionId)
+                                .Select(o => new QuizFeedbackQuestionsOptionDto
+                                {
+                                    OptionText = o.OptionText
+                                })
+                                .ToList()
+                })
+                .FirstOrDefault();
 
-                                            }
-                                    )
-                                    .ToList()
-                }).FirstOrDefault();
+            if (feedbackQuestion == null)
+            {
+                return null;
+            }
+
+            return new QuizFeedbackQuestionNoDto
+            {
+                QuizFeedbackQuestionId = feedbackQuestion.QuizFeedbackQuestionId,
+                QuizId = feedbackQuestion.QuizId,
+                QuestionNo = feedbackQuestion.QuestionNo,
+                Question = feedbackQuestion.Question,
+                QuestionType = feedbackQuestion.QuestionType,
+                Options = feedbackQuestion.Options ?? new List<QuizFeedbackQuestionsOptionDto>()
+            };
         }
 
-   
+
         public bool ValidateOptionsByFeedbackQuestionType(string questionType, List<QuizFeedbackQuestionsOptionDto> options)
         {
             questionType = questionType.ToUpper();
@@ -328,6 +340,32 @@ namespace LXP.Data.Repository
 
 
 
+
+//public QuizFeedbackQuestionNoDto GetFeedbackQuestionById(Guid quizFeedbackQuestionId)
+//{
+//    return _dbContext.Quizfeedbackquestions
+//        .Where(q => q.QuizFeedbackQuestionId == quizFeedbackQuestionId)
+//        .Select(q => new QuizFeedbackQuestionNoDto
+//        {
+//            QuizFeedbackQuestionId = q.QuizFeedbackQuestionId,
+//            QuizId = q.QuizId,
+//            QuestionNo = q.QuestionNo,
+//            Question = q.Question,
+//            QuestionType = q.QuestionType,
+
+//            Options = _dbContext.Feedbackquestionsoptions
+//                            .Where(o => o.QuizFeedbackQuestionId == q.QuizFeedbackQuestionId)
+//                            .Select(
+//                                o =>
+//                                    new QuizFeedbackQuestionsOptionDto
+//                                    {
+//                                        OptionText = o.OptionText,
+
+//                                    }
+//                            )
+//                            .ToList()
+//        }).FirstOrDefault();
+//}
 
 
 

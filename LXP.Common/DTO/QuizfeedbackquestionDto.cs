@@ -10,7 +10,7 @@ namespace LXP.Common.DTO
     {
         public Guid QuizId { get; set; }
 
-        //public int QuestionNo { get; set; }
+      
 
         public string Question { get; set; } = null!;
 
@@ -19,3 +19,5 @@ namespace LXP.Common.DTO
         public List<QuizFeedbackQuestionsOptionDto> Options { get; set; } = new List<QuizFeedbackQuestionsOptionDto>();
     }
 }
+
+//public int QuestionNo { get; set; }

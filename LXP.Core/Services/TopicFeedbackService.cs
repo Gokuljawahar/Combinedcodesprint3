@@ -31,10 +31,7 @@ namespace LXP.Core.Services
 
         public bool AddFeedbackQuestion(TopicFeedbackQuestionDTO question, List<FeedbackOptionDTO> options)
         {
-            // Validation and business logic here
-            // ...
-
-            // Call the repository method
+            
             return _repository.AddFeedbackQuestion(question, options);
         }
 
